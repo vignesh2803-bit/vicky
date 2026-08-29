@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIGNESH G | DARK ARCHITECT</title>
+    <style>
+        :root {
+            --bg-color: #050508;
+            --card-bg: rgba(13, 13, 20, 0.85); /* Semi-transparent for video background */
+            --accent-red: #ff003c;
+            --accent-purple: #9d00ff;
+            --text-color: #e0e0e0;
+            --text-dim: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Video & Image Styling */
+        .bg-video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            /* Optional Background Image (video load aagala-na idhu theryum) */
+            background: url('your-background-image.jpg') no-repeat center center/cover;
+        }
+
+        .bg-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4) contrast(1.2); /* Darken video for better text readability */
+        }
+
+        /* Overlay mask for extra evil dark effect */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 8, 0.6);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Ambient Evil Glow Effects */
+        .glow-bg {
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(255, 0, 60, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glow-bg-2 {
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(157, 0, 255, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 0, 60, 0.2);
+        }
+
+        .tagline {
+            color: var(--accent-red);
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 8px var(--accent-red);
+        }
+
+        h1 {
+            font-size: 3.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-top: 0.5rem;
+        }
+
+        .role-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .badge {
+            background: rgba(255, 0, 60, 0.1);
+            border: 1px solid var(--accent-red);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--accent-red);
+            backdrop-filter: blur(5px);
+        }
+
+        section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            color: #fff;
+            border-left: 4px solid var(--accent-red);
+            padding-left: 1rem;
+        }
+
+        /* Grid Layout */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.8rem;
+            border-radius: 8px;
+            position: relative;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .card:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tag.highlight {
+            border-color: var(--accent-purple);
+            color: #d18aff;
+        }
+
+        /* Bio Section */
+        .bio-box {
+            background: rgba(13, 13, 20, 0.85);
+            border: 1px solid rgba(157, 0, 255, 0.3);
+            padding: 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            background: rgba(5, 5, 8, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Video and Overlay -->
+    <div class="bg-video-container">
+        <!-- Video link-a inge replace pannungal (.mp4 file link) -->
+        <video autoplay muted loop playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-cyber-city-street-at-night-41225-large.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <div class="glow-bg"></div>
+    <div class="glow-bg-2"></div>
+
+    <header>
+        <div class="tagline">// SYSTEM ARCHITECT & CREATIVE ENGINEER</div>
+        <h1>VIGNESH G</h1>
+        <p class="subtitle">B.E. Computer Science & Engineering Student</p>
+        
+        <div class="role-badges">
+            <span class="badge">WEB DEVELOPER</span>
+            <span class="badge">APP DEVELOPER</span>
+            <span class="badge">VIDEO EDITOR</span>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2 class="section-title">SYSTEM OVERVIEW</h2>
+        <div class="bio-box">
+            <p>I am a B.E. CSE student operating at the intersection of application development, web architecture, software engineering, and high-impact digital media editing. I design functional applications and craft visually intense audio-visual experiences.</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">CORE SKILLS & TECH STACK</h2>
+        <div class="skills-grid">
+            
+            <div class="card">
+                <h3>💻 Programming Languages</h3>
+                <div class="skill-tags">
+                    <span class="tag">Java</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">C</span>
+                    <span class="tag">C++</span>
+                    <span class="tag">HTML</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎮 Game & App Development</h3>
+                <div class="skill-tags">
+                    <span class="tag highlight">Godot Engine</span>
+                    <span class="tag highlight">GDevelop</span>
+                    <span class="tag">Mobile Web Apps</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎬 Video & FX Editing</h3>
+                <div class="skill-tags">
+                    <span class="tag">CapCut</span>
+                    <span class="tag">Alight Motion</span>
+                    <span class="tag">Motion Graphics</span>
+                    <span class="tag">VFX Pipeline</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🤖 AI & Workflow Tools</h3>
+                <div class="skill-tags">
+                    <span class="tag highlight">ChatGPT</span>
+                    <span class="tag highlight">Gemini AI</span>
+                     <span class="tag highlight">replit AI</span>
+                     <span class="tag highlight">GitHub</span>
+                    <span class="tag">Prompt Engineering</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; VIGNESH G. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
